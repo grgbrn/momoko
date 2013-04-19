@@ -88,6 +88,14 @@ class Pool:
             if not connection.busy():
                 return connection
 
+    def is_busy(self):
+        """
+        Check if all connections in the pool are busy
+        """
+        if len(self._pool) < self.size:
+            return False            
+        return all([conn.busy() for conn in self._pool])
+
     def transaction(self,
         statements,
         cursor_factory=None,
